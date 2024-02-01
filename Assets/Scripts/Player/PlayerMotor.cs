@@ -12,13 +12,16 @@ public class PlayerMotor : MonoBehaviour
     private UnityEngine.Vector3 playerVelocity;
     public float speed = 5f;
     public float gravity = -9.81f;
-    public float jumpHeight = 3f;
+    public float jumpHeight = 2f;
     public bool lerpCrouch = false;
     public float crouchTimer = 1f;
     public bool crouching = false;
     public bool sprinting = false;
+    public bool doubleJump = false;
+    private bool usedDubJump = false;
     void Update()
     {
+        //Debug.Log("IsGrouned =" + isGrounded + "& used Double Jump = " + usedDubJump);
         isGrounded = controller.isGrounded;
         if (lerpCrouch)
         {
@@ -57,9 +60,18 @@ public class PlayerMotor : MonoBehaviour
     }
     public void Jump()
     {
-        if (isGrounded)
+        if (isGrounded && !doubleJump)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+            usedDubJump = false;
+        }else if (isGrounded && usedDubJump == false)
+        {
+            playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+            usedDubJump = false;
+        }else if (!isGrounded && !usedDubJump)
+        {
+            playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+            usedDubJump = true;
         }
     }
 
