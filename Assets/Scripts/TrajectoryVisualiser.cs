@@ -9,11 +9,11 @@ public class TrajectoryVisualiser : MonoBehaviour
     public float initialHeight;
     public Camera cam;
     public GrappleHookController gHC;
-
+    
 
     public void SimulateTrajectory()
     {
-        Debug.Log("TraVis Firing");
+        //Debug.Log("TraVis Firing");
         Vector3 launchPoint = cam.transform.position;
         Vector3 launchDirection = cam.transform.forward;
 
@@ -30,21 +30,24 @@ public class TrajectoryVisualiser : MonoBehaviour
 
             Vector3 nextPoint = launchPoint + launchDirection * time + new Vector3(x, y, launchSpeed * time);
 
-            Debug.DrawLine(previousPoint, nextPoint, Color.red); // Draw a line segment from the previous point to the next point
+             // Draw a line segment from the previous point to the next point
 
             previousPoint = nextPoint;
             time += timeInterval;
-
+            ;
             if (Physics.Raycast(previousPoint, launchDirection, out RaycastHit hit))
             {
-                Debug.Log("Collided");
+                
+                //Debug.Log("Collided");
                 gHC.SpawnGrappleAtPoint(hit.point);
+
+                //gHC.IsFired(true);
                 break;
             }
         }
     }
 
-    float CalculateLaunchAngle()
+    public float CalculateLaunchAngle()
     {
         if (cam != null)
         {
