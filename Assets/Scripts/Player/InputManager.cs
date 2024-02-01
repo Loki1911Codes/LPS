@@ -11,6 +11,8 @@ public class InputManager : MonoBehaviour
     private PlayerMotor motor;
     private PlayerLook look;
     public LedgeChecker ledgecheck;
+    public GrappleHookController gHC;
+    public TrajectoryVisualiser trajVis;
 
     void Awake()
     {
@@ -25,6 +27,7 @@ public class InputManager : MonoBehaviour
         onFoot.Crouch.performed += ctx => motor.Crouch();
         onFoot.Sprint.performed += ctx => motor.Sprint();
         onFoot.JVaultLedge.performed += ctx => motor.JVaultLedge(ledgecheck.Vault());
+        onFoot.GrappleHook.performed += ctx => motor.FireGrapple();
         
     }
     void FixedUpdate()

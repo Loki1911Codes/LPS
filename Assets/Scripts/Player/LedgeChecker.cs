@@ -19,7 +19,7 @@ public class LedgeChecker : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up, out hit, raycastDis))
         {
-            Debug.DrawRay(transform.position, -transform.up * raycastDis, Color.green);
+            //Debug.DrawRay(transform.position, -transform.up * raycastDis, Color.green);
             // Get the normal of the surface the raycast hits
             Vector3 hitNormal = hit.normal;
             // Check if the hit surface is facing up within the specified allowance

@@ -9,9 +9,11 @@ public class PlayerMotor : MonoBehaviour
 {
     [SerializeField]
     private bool isGrounded;
+    public TrajectoryVisualiser trajVis;
 
     private CharacterController controller;
     private UnityEngine.Vector3 playerVelocity;
+    public Camera cam;
     public float speed = 5f;
     public float gravity = -9.81f;
     public float jumpHeight = 2f;
@@ -22,11 +24,14 @@ public class PlayerMotor : MonoBehaviour
     public bool doubleJump = false;
     private bool usedDubJump = false;
     private bool vaultReset = true;
+   
+    
     
 
 
     void Update()
     {
+        
         if (isGrounded && usedDubJump && doubleJump)
         {
             usedDubJump = false;
@@ -107,6 +112,7 @@ public class PlayerMotor : MonoBehaviour
             speed = 5;
     }
     public void JVaultLedge(bool canVault)
+
     {
         if (!isGrounded && canVault == true && vaultReset)
         {
@@ -116,5 +122,9 @@ public class PlayerMotor : MonoBehaviour
         }
     
     }
+    public void FireGrapple()
+    {
+        Debug.Log("Motor Firing");
+        trajVis.SimulateTrajectory();
+    }
 }
-
