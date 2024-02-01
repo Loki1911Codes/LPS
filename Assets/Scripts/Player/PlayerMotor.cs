@@ -7,7 +7,9 @@ using UnityEngine.EventSystems;
 
 public class PlayerMotor : MonoBehaviour
 {
+    [SerializeField]
     private bool isGrounded;
+
     private CharacterController controller;
     private UnityEngine.Vector3 playerVelocity;
     public float speed = 5f;
@@ -19,8 +21,16 @@ public class PlayerMotor : MonoBehaviour
     public bool sprinting = false;
     public bool doubleJump = false;
     private bool usedDubJump = false;
+    private bool vaultReset = true;
+    
+
+
     void Update()
     {
+        if (isGrounded && usedDubJump && doubleJump)
+        {
+            usedDubJump = false;
+        }
         //Debug.Log("IsGrouned =" + isGrounded + "& used Double Jump = " + usedDubJump);
         isGrounded = controller.isGrounded;
         if (lerpCrouch)
@@ -60,18 +70,25 @@ public class PlayerMotor : MonoBehaviour
     }
     public void Jump()
     {
+        if (isGrounded)
+        {
+            vaultReset = true;
+        }
         if (isGrounded && !doubleJump)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
             usedDubJump = false;
-        }else if (isGrounded && usedDubJump == false)
+        }else if (isGrounded && usedDubJump == false && doubleJump)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
             usedDubJump = false;
-        }else if (!isGrounded && !usedDubJump)
+        }else if (!isGrounded && usedDubJump == false && doubleJump)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
             usedDubJump = true;
+        }else if (isGrounded && usedDubJump)
+        {
+            usedDubJump = false;
         }
     }
 
@@ -88,6 +105,16 @@ public class PlayerMotor : MonoBehaviour
             speed = 8; 
         else
             speed = 5;
+    }
+    public void JVaultLedge(bool canVault)
+    {
+        if (!isGrounded && canVault == true && vaultReset)
+        {
+            //Debug.Log("Vaulting dumbfuck");
+            playerVelocity.y = Mathf.Sqrt((jumpHeight * 0.6f) * -3.0f * gravity);
+            vaultReset = false;
+        }
+    
     }
 }
 

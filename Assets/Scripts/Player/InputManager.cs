@@ -10,6 +10,8 @@ public class InputManager : MonoBehaviour
 
     private PlayerMotor motor;
     private PlayerLook look;
+    public LedgeChecker ledgecheck;
+
     void Awake()
     {
         playerInput = new PlayerInput();
@@ -22,6 +24,7 @@ public class InputManager : MonoBehaviour
 
         onFoot.Crouch.performed += ctx => motor.Crouch();
         onFoot.Sprint.performed += ctx => motor.Sprint();
+        onFoot.JVaultLedge.performed += ctx => motor.JVaultLedge(ledgecheck.Vault());
         
     }
     void FixedUpdate()
