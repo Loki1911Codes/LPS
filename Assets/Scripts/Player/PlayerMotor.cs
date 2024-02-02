@@ -125,6 +125,6 @@ public class PlayerMotor : MonoBehaviour
     public void FireGrapple()
     {
         //Debug.Log("Motor Firing");
-        gHC.SpawnGrappleAtPoint();
+        gHC.FireGrappleHook();
     }
 }

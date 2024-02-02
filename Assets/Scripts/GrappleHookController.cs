@@ -12,94 +12,71 @@ public class GrappleHookController : MonoBehaviour
     public Camera cam;
     private bool isFired = false;
     private bool isPulled = false;
-    public TrajectoryVisualiser TrajVis;
-    public GameObject clonnedThrowHook;
+    public float launchSpeed = 15f;
     public float upwardForce = 5f;
+    public GameObject clonnedThrowHook;
     Rigidbody rb;
-    private bool isCollidingWithClone = false;
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("ThrowingHook")) // Replace "ThrowingGHook(Clone)" with the actual tag of the clone object
-        {
+    public bool isCollidingWithClone = true;
+    public void OnTriggerEnter(Collider other)
+    {   
+        if (gameObject.layer == LayerMask.NameToLayer("ThrowedHook")){
+            isCollidingWithClone = false;
+            Debug.Log("Passing");
+            Debug.Log(gameObject.layer);
+            if (other.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
+                isCollidingWithClone = true;
+                Debug.Log("isCollidingWithClone = " + isCollidingWithClone);
+            }
+        }else{
             isCollidingWithClone = true;
-        }else{isCollidingWithClone = false;}
+        }
     }
-    
-    void Update()
-    {
-        Debug.Log(isCollidingWithClone);
-    }
-    
-    
-    //public float upwardForce = 0.5f;
     
     public void DestoryGGH() {
      //Destroy(clonedGrapple);
         Destroy(clonnedThrowHook);
+        
     }
     
    
 
-    public void SpawnGrappleAtPoint()
+    public void FireGrappleHook()
     {
+     
         
         if (!isFired)
-        {
+        { print("Firing");
 
             GameObject throwingHook = Instantiate(ThrownGHookPrefab, cam.transform.position + cam.transform.forward * 1f, Quaternion.identity);
             clonnedThrowHook = throwingHook;
             throwingHook.tag = "ThrowingHook"; 
             rb = clonnedThrowHook.GetComponent<Rigidbody>();
             //Debug.Log("Attemopting to fire with force = " + TrajVis.launchSpeed + " and angle = " + TrajVis.CalculateLaunchAngle());
-            rb.AddForce(cam.transform.forward * TrajVis.launchSpeed + UnityEngine.Vector3.up * upwardForce, ForceMode.Impulse);
+            rb.AddForce(cam.transform.forward * launchSpeed + UnityEngine.Vector3.up * upwardForce, ForceMode.Impulse);
             isFired = true;
             isPulled = false;
 
         }
         else if(isFired && !isPulled)
-        {
-            if (isCollidingWithClone){
-                Debug.Log("stopping");
+        {   print("Attemping pull");
+            //Debug.Log(isFired + " "  +isPulled);
+            if (isCollidingWithClone)
+            {
+                Debug.Log("Pulling");
                 isPulled = true;
+                rb.isKinematic = true;
             }
         } else {
-
-            isFired = false;
-            isPulled= false;
-            DestoryGGH();
+            if (isFired && isPulled)
+            {
+                print("Destroying");
+                isFired = false;
+                isPulled= false;
+                isCollidingWithClone = false;
+                DestoryGGH();
+            }
         }
                    
     }
-    /*public void FiringAlongTraj()
-{
-    float launchAngle = TrajVis.CalculateLaunchAngle(); 
-    float launchSpeed = TrajVis.launchSpeed;
-
-    float time = 0f;
-    float timeInterval = 0.1f; // Set the time interval for each iteration
-
-    Vector3 launchPoint = transform.position;
-    Vector3 launchDirection = transform.forward; 
-
-    while (true)
-    {
-        float x = launchSpeed * Mathf.Cos(launchAngle * Mathf.PI / 180) * time;
-        float y = TrajVis.initialHeight - 4.9f * Mathf.Pow((x / (launchSpeed * Mathf.Cos(launchAngle * Mathf.PI / 180))), 2) + Mathf.Tan(launchAngle * Mathf.PI / 180) * x;
-
-        Vector3 nextPoint = launchPoint + launchDirection * time + new Vector3(x, y, launchSpeed * time);
-
-        if (Physics.Raycast(nextPoint, launchDirection, out RaycastHit hit))
-        {
-            
-            SpawnGrappleAtPoint(hit.point);
-            break;
-        }
-
-        // Move the grapple game object along the trajectory
-        transform.position = nextPoint;
-
-        time += timeInterval;
-    }
-}*/
 }

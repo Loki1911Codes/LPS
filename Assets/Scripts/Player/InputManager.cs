@@ -12,7 +12,7 @@ public class InputManager : MonoBehaviour
     private PlayerLook look;
     public LedgeChecker ledgecheck;
     public GrappleHookController gHC;
-    public TrajectoryVisualiser trajVis;
+
 
     void Awake()
     {

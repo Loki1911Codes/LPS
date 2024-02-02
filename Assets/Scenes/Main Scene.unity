@@ -569,7 +569,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ledgecheck: {fileID: 1780516891}
   gHC: {fileID: 379754687}
-  trajVis: {fileID: 608460580}
 --- !u!114 &379754672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -652,30 +651,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   cam: {fileID: 167538342}
-  TrajVis: {fileID: 608460580}
-  clonnedThrowHook: {fileID: 0}
+  launchSpeed: 15
   upwardForce: 5
---- !u!1 &608460577 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8996046740361562407, guid: d765be71402ecb8409a2ce7f49d733bc, type: 3}
-  m_PrefabInstance: {fileID: 7616380950617801524}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &608460580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 608460577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 700dad45d4da71146bbbea2991202003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  launchSpeed: 15.01
-  initialHeight: 2.92
-  cam: {fileID: 167538342}
-  gHC: {fileID: 379754687}
+  clonnedThrowHook: {fileID: 0}
+  isCollidingWithClone: 0
 --- !u!1 &616804200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,7 +1684,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1780516890}
   - component: {fileID: 1780516891}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LedgeChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2124,6 +2103,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5661948502757078629, guid: d765be71402ecb8409a2ce7f49d733bc, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5712977905174588701, guid: d765be71402ecb8409a2ce7f49d733bc, type: 3}
       propertyPath: m_HDR
       value: 1
@@ -2147,6 +2130,10 @@ PrefabInstance:
     - target: {fileID: 7836485702933663002, guid: d765be71402ecb8409a2ce7f49d733bc, type: 3}
       propertyPath: m_IncludeLayers.m_Bits
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8996046740361562407, guid: d765be71402ecb8409a2ce7f49d733bc, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2176,9 +2163,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5661948502757078629, guid: d765be71402ecb8409a2ce7f49d733bc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 379754687}
-    - targetCorrespondingSourceObject: {fileID: 8996046740361562407, guid: d765be71402ecb8409a2ce7f49d733bc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 608460580}
   m_SourcePrefab: {fileID: 100100000, guid: d765be71402ecb8409a2ce7f49d733bc, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
