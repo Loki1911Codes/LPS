@@ -9,7 +9,7 @@ public class PlayerMotor : MonoBehaviour
 {
     [SerializeField]
     private bool isGrounded;
-    public TrajectoryVisualiser trajVis;
+    public GrappleHookController gHC;
 
     private CharacterController controller;
     private UnityEngine.Vector3 playerVelocity;
@@ -125,6 +125,6 @@ public class PlayerMotor : MonoBehaviour
     public void FireGrapple()
     {
         //Debug.Log("Motor Firing");
-        trajVis.SimulateTrajectory();
+        gHC.SpawnGrappleAtPoint();
     }
 }

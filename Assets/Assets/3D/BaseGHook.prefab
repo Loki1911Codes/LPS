@@ -97,10 +97,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseGHookPrefab: {fileID: 0}
+  ThrownGHookPrefab: {fileID: 0}
   GrappleHook:
     serializedVersion: 2
     m_Bits: 8
   cam: {fileID: 0}
-  grappleHookScale: 0.036567
+  grappleHookScale: 1
   clonedGrapple: {fileID: 0}
   TrajVis: {fileID: 0}
+  clonnedThrowHook: {fileID: 0}

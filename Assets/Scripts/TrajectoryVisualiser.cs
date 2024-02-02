@@ -39,7 +39,7 @@ public class TrajectoryVisualiser : MonoBehaviour
             {
                 
                 //Debug.Log("Collided");
-                gHC.SpawnGrappleAtPoint(hit.point);
+                gHC.SpawnGrappleAtPoint();
 
                 //gHC.IsFired(true);
                 break;

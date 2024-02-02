@@ -6,33 +6,67 @@ using UnityEngine;
 
 public class GrappleHookController : MonoBehaviour
 {
-    public GameObject baseGHookPrefab;
+
+    public GameObject ThrownGHookPrefab;
     public LayerMask GrappleHook;
     public Camera cam;
-    public float grappleHookScale = 0.036567f;
     private bool isFired = false;
-    public GameObject clonedGrapple;
+    private bool isPulled = false;
     public TrajectoryVisualiser TrajVis;
-    public void DestoryGGH() {
-     Destroy(clonedGrapple);
-    }
+    public GameObject clonnedThrowHook;
+    public float upwardForce = 5f;
+    Rigidbody rb;
+    private bool isCollidingWithClone = false;
 
-    public void SpawnGrappleAtPoint(Vector3 hitpoint)
+    private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("ThrowingHook")) // Replace "ThrowingGHook(Clone)" with the actual tag of the clone object
+        {
+            isCollidingWithClone = true;
+        }else{isCollidingWithClone = false;}
+    }
+    
+    void Update()
+    {
+        Debug.Log(isCollidingWithClone);
+    }
+    
+    
+    //public float upwardForce = 0.5f;
+    
+    public void DestoryGGH() {
+     //Destroy(clonedGrapple);
+        Destroy(clonnedThrowHook);
+    }
+    
+   
+
+    public void SpawnGrappleAtPoint()
+    {
+        
         if (!isFired)
         {
-            //Debug.Log("Attempting Spawn at = " + hitpoint);
-            GameObject grappleHook = Instantiate(baseGHookPrefab, hitpoint, Quaternion.identity);
-            grappleHook.layer = GrappleHook;
-            grappleHook.transform.localScale = new Vector3(grappleHookScale, grappleHookScale, grappleHookScale);
-            clonedGrapple = grappleHook;
-            grappleHook.transform.LookAt(cam.transform.position);
-            isFired = true;
-            
 
-        }else {
-            //Code here to destroy the grapple hook, there is already one prefag called BaseGHook that is in the game and cant be destryoed, only the new just spawend one.
+            GameObject throwingHook = Instantiate(ThrownGHookPrefab, cam.transform.position + cam.transform.forward * 1f, Quaternion.identity);
+            clonnedThrowHook = throwingHook;
+            throwingHook.tag = "ThrowingHook"; 
+            rb = clonnedThrowHook.GetComponent<Rigidbody>();
+            //Debug.Log("Attemopting to fire with force = " + TrajVis.launchSpeed + " and angle = " + TrajVis.CalculateLaunchAngle());
+            rb.AddForce(cam.transform.forward * TrajVis.launchSpeed + UnityEngine.Vector3.up * upwardForce, ForceMode.Impulse);
+            isFired = true;
+            isPulled = false;
+
+        }
+        else if(isFired && !isPulled)
+        {
+            if (isCollidingWithClone){
+                Debug.Log("stopping");
+                isPulled = true;
+            }
+        } else {
+
             isFired = false;
+            isPulled= false;
             DestoryGGH();
         }
                    
